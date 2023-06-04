@@ -6,6 +6,7 @@ function show_files($dir = '.') {
         $path = $dir . '/' . $file;
         if ($file === '.' || $file === '..') continue;
         if (is_dir($path)) {
+            print("<li>" . $file  . "</li>");
             show_files($path);
         } else {
             print("<li><a href='{$path}'>{$path}</a></li>");
