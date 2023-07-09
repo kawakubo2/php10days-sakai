@@ -1,9 +1,9 @@
 <?php
-$data = [
+$defs = [
     'name'  => '山田太郎',
     'email' => 'yamada@wings.msn.to',
     'zip'   => '100-0000',
-    'sex'   => '男',
+    'sex'   => '男性',
     'age'   => '40',
     'os'    => ['win', 'linux'],
     'memo'  => '特になし'
@@ -21,15 +21,42 @@ $data = [
     <form action="request2.php" method="post">
         <div class="container">
             <label for="name">名前: </label><br>
-            <input type="text" name="name" id="name" value="<?=$data['name'] ?>">
+            <input type="text" name="name" id="name" value="<?=$defs['name'] ?>">
         </div>
         <div class="container">
             <label for="email">メールアドレス: </label><br>
-            <input type="email" name="email" id="email" value="<?=$data['email'] ?>">
+            <input type="email" name="email" id="email" value="<?=$defs['email'] ?>">
         </div>
         <div class="container">
             <label for="zip">郵便番号: </label><br>
-            <input type="text" name="zip" id="zip" value="<?=$data['zip'] ?>">
+            <input type="text" name="zip" id="zip" value="<?=$defs['zip'] ?>">
+        </div>
+        <div class="container">
+            性別: <br>
+    <?php
+        $sexes = ['男性', '女性', 'その他'];
+        foreach ($sexes as $sex) {
+    ?>
+        <label>
+            <input type="radio" name="sex" value="<?=$sex ?>" 
+                <?=($defs['sex'] === $sex) ? 'checked': '' ?> ><?=$sex ?>
+        </label>
+    <?php
+        }
+    ?>
+        </div>
+        <div>
+            <label for="age">年齢: </label><br>
+            <select name="age" id="age">
+        <?php
+            for ($i = 10; $i <= 50; $i += 10) { // $i += 10 ---> $i = $i + 10
+        ?>
+                <option value="<?=$i ?>"
+                    <?=($i === (int)$defs['age']) ? 'selected': '' ?> ><?=$i ?>代</option>
+        <?php
+            }
+        ?>
+            </select>
         </div>
     </form>
 </body>
