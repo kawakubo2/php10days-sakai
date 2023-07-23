@@ -10,7 +10,7 @@
 </head>
 <body>
     <h3>アンケート</h3>
-    <form action="wizard2.php" method="post" novalidate>
+    <form action="wizard2.php" method="post">
         <div class="container">
             <label for="name">名前: </label><br>
             <input type="text" name="name" id="name" value="<?=$_SESSION['name'] ?>">
