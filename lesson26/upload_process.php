@@ -1,4 +1,8 @@
 <?php
+print('<pre>');
+print_r($_FILES);
+print('</pre>');
+/*
 $ext = pathinfo($_FILES['upfile']['name']);
 $perm = ['gif', 'jpg', 'jpeg', 'png'];
 
@@ -27,4 +31,5 @@ if ($_FILES['upfile']['error'] !== UPLOAD_ERR_OK) {
 if (isset($err_msg)) {
     die("<p>{$err_msg}</p>");
 }
-header('Location: http://localhost:3000/lesson26/upload.php'); 
+header('Location: http://localhost:3000/lesson26/upload.php');
+*/
