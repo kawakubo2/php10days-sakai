@@ -38,3 +38,68 @@ WHERE 分類 LIKE 'EU_';
 SELECT *
 FROM 書籍
 WHERE 書籍コード LIKE '1___2';
+
+SELECT *
+from 書籍
+WHERE 書籍コード LIKE '1%2_';
+
+SELECT *
+FROM 書籍
+WHERE シリーズ名 NOT LIKE '%入門%';
+
+SELECT *
+FROM 書籍
+WHERE シリーズ名 NOT LIKE '入門%';
+
+SELECT *
+FROM 給与 
+WHERE
+    勤務区分 = 'MORNING'
+    OR
+    勤務区分 = 'DAY'
+    OR
+    勤務区分 = 'NIGHT';
+
+SELECT *
+FROM 給与
+WHERE 勤務区分 IN ('MORNING', 'DAY', 'NIGHT');
+
+SELECT *
+FROM 給与
+WHERE 勤続年数 IN (3, 5);
+
+SELECT *
+FROM 給与
+WHERE 勤務区分 NOT IN ('MORNING', 'DAY', 'NIGHT');
+
+SELECT *
+FROM 給与
+WHERE 
+    勤務区分 <> 'MORNING'
+    AND
+    勤務区分 <> 'DAY'
+    AND
+    勤務区分 <> 'NIGHT'
+    
+SELECT *
+FROM 給与
+WHERE
+    基本給 >= 25
+    AND
+    基本給 <= 30;
+
+SELECT *
+FROM 給与
+WHERE 基本給 BETWEEN 25 and 30;
+
+SELECT *
+FROM 給与
+WHERE 基本給 NOT BETWEEN 25 and 30;
+
+SELECT *
+FROM 給与
+WHERE
+    基本給 < 25
+    OR
+    基本給 > 30;
+

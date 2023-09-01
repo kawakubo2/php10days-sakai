@@ -133,3 +133,32 @@ SHOW TABLES;
 SELECT *
 FROM 家計簿
 WHERE メモ LIKE '%1月%';
+
+CREATE TABLE 湊くんの買い物リスト(
+    カテゴリ varchar(10),
+    名称 varchar(50),
+    販売店 char(1),
+    価格 INT
+);
+
+load data infile 'C:/temp/minato3.txt'
+into table 湊くんの買い物リスト
+CHARACTER SELECT sjis
+lines terminated by '\r\n';
+
+SELECT *
+FROM 湊くんの買い物リスト;
+
+UPDATE 湊くんの買い物リスト
+SET 価格 = 6200
+WHERE
+    名称 = 'スッキリ勇者クエスト'
+    AND
+    販売店 = 'B';
+
+SELECT *
+FROM 湊くんの買い物リスト
+WHERE
+    (販売店 = 'A' OR 販売店 = 'B')
+    AND
+    (カテゴリ = 'DVD' OR カテゴリ = 'ゲーム');
