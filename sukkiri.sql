@@ -162,3 +162,189 @@ WHERE
     (販売店 = 'A' OR 販売店 = 'B')
     AND
     (カテゴリ = 'DVD' OR カテゴリ = 'ゲーム');
+
+create table vegetables(
+    id int not null auto_increment,
+    en_name varchar(255) not null,
+    ja_name varchar(255) not null,
+    primary key(id)
+);
+
+INSERT INTO VEGETABLES(en_name, ja_name)
+VALUES
+('potato', 'じゃがいも'),
+('cucumber', 'きゅうり'),
+('pumpkin', 'かぼちゃ');
+
+SELECT *
+FROM vegetables;
+
+CREATE TABLE 気象観測(
+    月 int,
+    降水量 int,
+    最高気温 int,
+    最低気温 int,
+    湿度 int
+);
+
+LOAD DATA INFILE 'c:/temp/kisho3.txt'
+INTO TABLE 気象観測
+CHARACTER SET sjis
+LINES TERMINATED BY '\r\n';
+
+SELECT * FROM 気象観測;
+
+SELECT *
+FROM 気象観測
+WHERE 月 = 6;
+
+SELECT *
+FROM 気象観測
+WHERE 月 <> 6;
+
+SELECT *
+FROM 気象観測
+WHERE 月 != 6;
+
+SELECT *
+FROM 気象観測
+WHERE NOT 月 = 6;
+
+SELECT *
+FROM 気象観測
+WHERE 降水量 < 100;
+
+SELECT *
+FROM 気象観測
+WHERE 降水量 > 200;
+
+SELECT *
+FROM 気象観測
+WHERE 最高気温 >= 30;
+
+SELECT *
+FROM 気象観測
+WHERE 最低気温 <= 0;
+
+SELECT * FROM 気象観測 WHERE 月 IN (3, 5, 7);
+
+SELET *
+FROM 気象観測
+WHERE
+    月 = 3
+    OR
+    月 = 5
+    OR
+    月 = 7;
+
+SELECT *
+FROM 気象観測
+WHERE 月 NOT IN (3, 5, 7);
+
+SELECT *
+FROM 気象観測
+WHERE
+    月 <> 3
+    AND
+    月 <> 5
+    AND
+    月 <> 7;
+
+SELECT * FROM 都道府県;
+
+CREATE TABLE 成績表(
+    学籍番号 CHAR(4),
+    学生名 VARCHAR(20),
+    法学 INT,
+    経済学 INT,
+    哲学 INT,
+    情報理論 INT,
+    外国語 INT,
+    総合成績 CHAR(1)
+);
+
+DELETE FROM 成績表;
+
+load data infile 'c:/temp/seiseki3.txt'
+into table 成績表
+character set sjis
+lines terminated by '\r\n';
+
+SELECT *
+FROM 成績表;
+
+INSERT INTO 成績表
+VALUES
+('S001', '織田　信長', 77, 55, 80, 75, 93, null),
+('A002', '豊臣　秀吉', 64, 69, 70,  0, 59, null),
+('E003', '徳川　家康', 80, 83, 85, 90, 79, null);
+
+UPDATE 成績表
+SET 法学 = 85, 哲学 = 67
+WHERE 学籍番号 = 'S001';
+
+UPDATE 成績表
+SET 外国語 = 81
+WHERE 学籍番号 IN ('A002', 'E003');
+
+SELECT * FROM 成績表;
+
+UPDATE 成績表
+SET 総合成績 = 'A'
+WHERE
+    法学 >= 80
+    AND
+    経済学 >= 80
+    AND
+    哲学 >= 80
+    AND
+    情報理論 >=80
+    AND
+    外国語 >= 80;
+
+UPDATE 成績表
+SET 総合成績 = 'B'
+WHERE
+    (法学 >= 80 OR 外国語 >= 80)
+    AND
+    (経済学 >= 80 OR 哲学 >= 80)
+    AND 総合成績 IS NULL;
+
+UPDATE 成績表
+SET 総合成績 = 'D'
+WHERE
+    法学 < 50
+    AND
+    経済学 < 50
+    AND
+    哲学 < 50
+    AND
+    情報理論 < 50
+    AND
+    外国語 < 50;
+
+UPDATE 成績表
+SET 総合成績 = 'C'
+WHERE 総合成績 IS NULL;
+
+DELETE FROM 成績表
+WHERE
+    法学 = 0
+    OR
+    経済学 = 0
+    OR
+    哲学 = 0
+    OR
+    情報理論 = 0
+    OR
+    外国語 = 0;
+
+SELECT * FROM 成績表;
+
+SELECT *
+FROM 家計簿
+ORDER BY 出金額;
+
+SELECT *
+FROM 家計簿
+ORDER BY 入金額 DESC, 出金額 DESC;
