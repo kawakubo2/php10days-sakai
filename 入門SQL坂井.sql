@@ -103,3 +103,42 @@ WHERE
     OR
     基本給 > 30;
 
+SELECT * FROM 仕入担当;
+SELECT * FROM 売上担当;
+
+SELECT 氏名 FROM 仕入担当
+UNION
+SELECT 氏名 FROM 売上担当;
+
+SELECT 氏名 FROM 仕入担当
+UNION ALL
+SELECT 氏名 FROM 売上担当;
+
+-- 差集合
+SELECT 氏名 FROM 仕入担当
+EXCEPT
+SELECT 氏名 FROM 売上担当;
+
+-- MySQLでの書き方
+SELECT 氏名
+FROM 仕入担当 AS S
+WHERE NOT EXISTS
+    (
+        SELECT *
+        FROM 売上担当 AS U
+        WHERE U.氏名 = S.氏名
+    );
+
+-- 積集合
+SELECT 氏名 FROM 仕入担当
+INTERSECT
+SELECT 氏名 FROM 売上担当;
+
+SELECT 氏名
+FROM 仕入担当 AS S
+WHERE EXISTS
+    (
+        SELECT *
+        FROM 売上担当 AS U
+        WHERE U.氏名 = S.氏名
+    );
