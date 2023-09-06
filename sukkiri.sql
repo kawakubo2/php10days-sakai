@@ -348,3 +348,77 @@ ORDER BY 出金額;
 SELECT *
 FROM 家計簿
 ORDER BY 入金額 DESC, 出金額 DESC;
+
+SELECT 費目, 出金額
+FROM 家計簿
+ORDER BY 出金額 DESC
+LIMIT 3;
+-- 先頭から欲しい場合はoffsetは省略可能
+
+SELECT 費目, 出金額
+FROM 家計簿
+ORDER BY 出金額 DESC
+LIMIT 1
+OFFSET 2;
+
+CREATE TABLE 注文履歴(
+    日付 DATE,
+    注文番号 INT,
+    注文枝番 INT,
+    商品名 VARCHAR(50),
+    分類 CHAR(1),
+    サイズ CHAR(1),
+    単価 INT,
+    数量 INT,
+    注文金額 INT
+);
+
+SELECT * FROM 注文履歴;
+
+load data infile 'c:/temp/chumon3.txt'
+into table 注文履歴
+character set sjis
+lines terminated by '\r\n';
+
+SELECT *
+FROM 注文履歴
+ORDER BY 注文番号, 注文枝番;
+
+SELECT DISTINCT 商品名
+FROM 注文履歴
+WHERE 
+    日付 >= '2022-01-01'
+    AND
+    日付 < '2022-02-01'
+ORDER BY 商品名;
+
+SELECT 注文番号, 注文枝番, 注文金額
+FROM 注文履歴
+WHERE 分類 = '1'
+ORDER BY 注文金額
+LIMIT 3
+OFFSET 1;
+
+SELECT 日付, 商品名, 単価, 数量, 注文金額
+FROM 注文履歴
+WHERE 
+    分類 = '3'
+    AND
+    数量 >= 2
+ORDER BY 日付, 数量 DESC;
+
+SELECT * FROM 注文履歴;
+
+SELECT 分類, 商品名, サイズ, 単価
+FROM 注文履歴
+WHERE 分類 = '1'
+UNION
+SELECT 分類, 商品名, '', 単価
+FROM 注文履歴
+WHERE 分類 = '2'
+UNION
+SELECT 分類, 商品名, '', 単価
+FROM 注文履歴
+WHERE 分類 = '3'
+ORDER BY 分類, 商品名;
+
