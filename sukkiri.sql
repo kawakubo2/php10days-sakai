@@ -292,36 +292,17 @@ SELECT * FROM 成績表;
 UPDATE 成績表
 SET 総合成績 = 'A'
 WHERE
-    法学 >= 80
-    AND
-    経済学 >= 80
-    AND
-    哲学 >= 80
-    AND
-    情報理論 >=80
-    AND
-    外国語 >= 80;
+    法学 >= 80 AND 経済学 >= 80 AND 哲学 >= 80 AND 情報理論 >=80 AND 外国語 >= 80;
 
 UPDATE 成績表
 SET 総合成績 = 'B'
 WHERE
-    (法学 >= 80 OR 外国語 >= 80)
-    AND
-    (経済学 >= 80 OR 哲学 >= 80)
-    AND 総合成績 IS NULL;
+    (法学 >= 80 OR 外国語 >= 80) AND (経済学 >= 80 OR 哲学 >= 80) AND 総合成績 IS NULL;
 
 UPDATE 成績表
 SET 総合成績 = 'D'
 WHERE
-    法学 < 50
-    AND
-    経済学 < 50
-    AND
-    哲学 < 50
-    AND
-    情報理論 < 50
-    AND
-    外国語 < 50;
+    法学 < 50 AND 経済学 < 50 AND 哲学 < 50 AND 情報理論 < 50 AND 外国語 < 50;
 
 UPDATE 成績表
 SET 総合成績 = 'C'
@@ -329,15 +310,17 @@ WHERE 総合成績 IS NULL;
 
 DELETE FROM 成績表
 WHERE
-    法学 = 0
-    OR
-    経済学 = 0
-    OR
-    哲学 = 0
-    OR
-    情報理論 = 0
-    OR
-    外国語 = 0;
+    法学 = 0 OR 経済学 = 0 OR 哲学 = 0 OR 情報理論 = 0 OR 外国語 = 0;
+
+UPDATE 成績表
+SET 総合成績 =
+    CASE 
+        WHEN 法学 >= 80 AND 経済学 >= 80 AND 哲学 >= 80 AND 情報理論 >=80 AND 外国語 >= 80 THEN 'A'
+        WHEN (法学 >= 80 OR 外国語 >= 80) AND (経済学 >= 80 OR 哲学 >= 80)                THEN 'B'
+        WHEN 法学 < 50 AND 経済学 < 50 AND 哲学 < 50 AND 情報理論 < 50 AND 外国語 < 50     THEN 'D'
+        ELSE 'C'
+    END;
+
 
 SELECT * FROM 成績表;
 
@@ -422,3 +405,82 @@ FROM 注文履歴
 WHERE 分類 = '3'
 ORDER BY 分類, 商品名;
 
+SELECT DISTINCT 分類, 商品名,
+    CASE 分類
+        WHEN '1' THEN サイズ
+        ELSE  ''
+    END AS サイズ, 単価
+FROM 注文履歴
+ORDER BY 分類, 商品名;
+
+SELECT 費目, 出金額,
+    CASE 費目
+        WHEN '居住費' THEN '固定費'
+        WHEN '水道光熱費' THEN '固定費'
+        ELSE '変動費' 
+    END AS 出費の分類
+FROM 家計簿
+WHERE 出金額 > 0;
+
+/*
+$出費の分類 = null;
+swith($費目) {
+    case '居住費':
+        $出費の分類 = '固定費';
+        break;
+    case '水道光熱費':
+        $出費の分類 = '固定費';
+        break;
+    default:
+        $出費の分類 = '変動費';
+        break;
+}
+*/
+
+SELECT 費目, 入金額,
+    CASE 
+        WHEN 入金額 < 5000 THEN 'お小遣い'
+        WHEN 入金額 < 100000 THEN '一時収入'
+        WHEN 入金額 < 300000 THEN '給料出たー！'
+        ELSE '想定外の収入です！'
+    END AS 収入の分類
+FROM 家計簿
+WHERE 入金額 > 0;
+
+/*
+$収入の分類 = null;
+if ($入金額 < 5000) {
+    $収入の分類 = 'お小遣い';
+} else if ($入金額 < 100000) {
+    $収入の分類 = '一時収入';
+} else if ($にゅうきん額 < 300000) {
+    $収入の分類 = '給料出たー！';
+} else {
+    $収入の分類 = '想定外の収入です！';
+}
+*/
+
+SELECT floor(1.9999999);
+SELECT ceil(1.00000001);
+SELECT round(1.2345, 3);
+SELECT truncate(1.23456, 3);
+
+SELECT truncate(1234567890, -3);
+SELECT round(1234567890, -3);
+
+SELECT curdate(), current_date(), current_date;
+SELECT curtime(), current_time(), current_time;
+SELECT date_format(now(), '%Y-%m-%d');
+
+SELECT adddate(now(), interval 10 day);
+SELECT adddate(now(), interval 10 week);
+SELECT adddate(now(), interval 10 month);
+SELECT adddate(now(), interval 10 quarter);
+SELECT adddate(now(), interval 10 year);
+SELECT subdate(now(), interval 10 day);
+
+SELECT addtime(now(), '1 2:3:4');
+
+SELECT year(now()), month(now()), date(now()), hour(now()), minute(now()), second(now());
+
+SELECT extract(YEAR_MONTH from now());
