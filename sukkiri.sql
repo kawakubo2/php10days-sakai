@@ -484,3 +484,138 @@ SELECT addtime(now(), '1 2:3:4');
 SELECT year(now()), month(now()), date(now()), hour(now()), minute(now()), second(now());
 
 SELECT extract(YEAR_MONTH from now());
+
+SELECT * FROM 回答者;
+
+create table 回答者(
+メールアドレス char(30),
+国名 varchar(20),
+住居 char(1),
+年齢 int
+);
+
+load data infile 'c:/temp/kaitosha3.txt'
+into table 回答者
+character set sjis
+lines terminated by '\r\n';
+
+select * from 回答者;
+
+select substr(trim(メールアドレス), -2) from 回答者;
+
+
+update 回答者
+set 国名 =
+	case substr(trim(メールアドレス), -2)
+		when 'jp' then '日本'
+		when 'uk' then 'イギリス'
+		when 'cn' then '中国'
+		when 'fr' then 'フランス'
+		when 'vn' then 'ベトナム'
+	end;
+
+ SELECT * FROM 回答者;
+        ELSE  
+SELECT concat(coalesce(メモ, ''), '(', 費目, ') ', 出金額, '円')
+FROM 家計簿
+WHERE 出金額 > 0;
+
+UPDATE 回答者
+SET 住居 = 'D'
+WHERE 国名 IN('日本', 'フランス', 'ベトナム')
+
+UPDATE 回答者
+SET 住居 = 'C'
+WHERE 国名 IN('イギリス', '中国');
+
+SELECT trim(メールアドレス) AS メールアドレス,
+    concat(
+        CASE 
+            WHEN 年齢 < 20 THEN ''
+            WHEN 年齢 < 30 THEN '20'
+            WHEN 年齢 < 40 THEN '30'
+            WHEN 年齢 < 50 THEN '40'
+            WHEN 年齢 < 60 THEN '50'
+            ELSE ''
+        END,
+        '代:',
+        CASE 住居
+            WHEN 'D' THEN '戸建て'
+            WHEN 'C' THEN '集合住宅'
+        END
+    ) AS 属性
+FROM 回答者;
+
+SELECT trim(メールアドレス) AS メールアドレス,
+    concat(
+        TRUNCATE(年齢, -1),
+        '代:',
+        CASE 住居
+            WHEN 'D' THEN '戸建て'
+            WHEN 'C' THEN '集合住宅'
+        END
+    ) AS 属性
+FROM 回答者;
+
+CREATE TABLE 受注(
+    受注日 DATE,
+    受注id VARCHAR(10),
+    文字 VARCHAR(100),
+    文字数 INT,
+    書体コード VARCHAR(10)
+);
+
+load data infile 'c:/temp/juchu3.txt'
+into table 受注
+character set sjis
+lines terminated by '\r\n';
+
+SELECT * FROM 受注;
+
+UPDATE 受注
+SET 文字数 = char_length(trim(replace(文字, ' ', '')));
+
+SELECT 受注日, 受注id, 文字数,
+    CASE 書体コード
+        WHEN '1' THEN  'ブロック体'
+        WHEN '2' THEN '筆記体'
+        WHEN '3' THEN '草書体'
+        ELSE  'ブロック体'
+    END AS 書体名,
+    CASE 書体コード
+        WHEN '1' THEN 100
+        WHEN '2' THEN 100
+        WHEN '3' THEN 100
+        ELSE 100
+    END AS 単価,
+    CASE 
+        WHEN 文字数 > 10 THEN 500
+        ELSE 0
+    END AS 特別加工料
+FROM 受注
+ORDER BY 受注日, 受注id;
+
+SELECT 受注日,受注id,文字数,
+    CASE 書体コード
+        WHEN '1' THEN 'ブロック体'
+        WHEN '2' THEN '筆記体'
+        WHEN '3' THEN '草書体'
+        ELSE 'ブロック体'
+    END AS 書体名,
+    CASE 書体コード
+        WHEN '1' THEN 100 
+        WHEN '2' THEN 150
+        WHEN '3' THEN 200
+        ELSE 100 
+    END AS 単価,
+    CASE 
+        WHEN 文字数 > 10 THEN 500 
+        ELSE 0 
+    END AS 特別加工料
+FROM 受注
+ORDER BY 受注日,受注id;
+UPDATE 受注
+SET 文字 = trim(replace(文字, ' ', '★')), 文字数 = char_length(文字)
+WHERE 受注id = '113';
+
+SELECT * FROM 受注;
