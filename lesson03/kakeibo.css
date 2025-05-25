@@ -1,0 +1,14 @@
+table#kakeibo {
+    border-collapse: collapse;
+}
+
+table#kakeibo th, table#kakeibo td {
+    border-collapse: collapse;
+    border: 1px solid #999;
+    padding: 0.5em;
+}
+
+table#kakeibo > thead {
+    color: white;
+    background: navy;
+}
